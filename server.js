@@ -31,6 +31,11 @@ db.once("open", () => {
 
 //-------------------------------------------------------------------
 
+//Google auth utility functions
+let googleAuth = require('./util/google-auth');
+
+//-------------------------------------------------------------------
+
 //Consume JSON body
 app.use(express.json());
 
@@ -47,7 +52,37 @@ app.get('/', (req, res) => {
 });
 
 //Authentication
-//
+app.get('/authenticate', async (req, res) => {
+
+    //Retrieve the Authorization: Bearer ABCD.... header from the request
+    let authHeader = req.get('Authorization');
+    
+    //If there was a header, extract the token from the header
+    let token = authHeader && authHeader.split(' ')[1];
+
+    //If no value was detected in the Auth header, return an error
+    if (!token) {
+        return res.status(400).send({
+            "msg": "No authorization header provided"
+        });
+    }
+
+    //Obtain payload from Google
+    let payload = await googleAuth.checkTokenSignature(token);
+
+    //If the error field exists, return it to the user
+    if (payload.error) {
+        return res.status(400).send({
+            "error": payload.error
+        });
+    }
+
+    
+    return res.status(200).send({
+        payload
+    });
+
+});
 
 //-------------------------------------------------------------------
 
