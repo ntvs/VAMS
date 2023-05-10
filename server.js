@@ -31,8 +31,9 @@ db.once("open", () => {
 
 //-------------------------------------------------------------------
 
-//Google auth utility functions
+//Authentication utilities
 let googleAuthUtils = require('./util/google-auth');
+let { signToken } = require('./util/general-auth');
 
 //-------------------------------------------------------------------
 
@@ -80,7 +81,11 @@ app.get('/authenticate', async (req, res) => {
     //Obtain user from local DB
     let user = await googleAuthUtils.findUser(payload);
     
+    //Sign JWT containing email associated with the user
+    let jwt = signToken(user.email);
+
     return res.status(200).send({
+        jwt,
         user
     });
 
