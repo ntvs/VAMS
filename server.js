@@ -32,7 +32,7 @@ db.once("open", () => {
 //-------------------------------------------------------------------
 
 //Google auth utility functions
-let googleAuth = require('./util/google-auth');
+let googleAuthUtils = require('./util/google-auth');
 
 //-------------------------------------------------------------------
 
@@ -68,7 +68,7 @@ app.get('/authenticate', async (req, res) => {
     }
 
     //Obtain payload from Google
-    let payload = await googleAuth.checkTokenSignature(token);
+    let payload = await googleAuthUtils.checkTokenSignature(token);
 
     //If the error field exists, return it to the user
     if (payload.error) {
@@ -77,9 +77,11 @@ app.get('/authenticate', async (req, res) => {
         });
     }
 
+    //Obtain user from local DB
+    let user = await googleAuthUtils.findUser(payload);
     
     return res.status(200).send({
-        payload
+        user
     });
 
 });
