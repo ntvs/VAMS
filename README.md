@@ -16,4 +16,4 @@ To provide authentication and validation services to microservices-based applica
 - DB_URL=
 - CLIENT_ORIGIN=
 - JWT_SECRET=
-- GOOGLE_CLIENT_ID
+- GOOGLE_CLIENT_ID=
