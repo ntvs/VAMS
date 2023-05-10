@@ -1,3 +1,9 @@
+//-------------------------------------------------------------------
+
+const GoogleUser = require("../models/googleUser");
+
+//-------------------------------------------------------------------
+
 //Google authentication library
 const { OAuth2Client } = require('google-auth-library');
 
@@ -28,9 +34,29 @@ const checkTokenSignature = async (token) => {
 
 //-------------------------------------------------------------------
 
-//
+//Function that locates a given user in the database - and creates one if one doesn't exist
+const findUser = async (userObj) => {
+
+    //Check the user table for any matching users
+    let user = await GoogleUser.findOne({sub: userObj.sub});
+
+    if (user) {
+        return user;
+    } else {
+
+        const newUser = new GoogleUser({
+            "sub": userObj.sub,
+            "username": userObj.name,
+            "email": userObj.email
+        });
+
+        await newUser.save();
+
+        return newUser;
+    }
+};
 
 //-------------------------------------------------------------------
 
 //Exports
-module.exports = { checkTokenSignature };
+module.exports = { checkTokenSignature, findUser };
