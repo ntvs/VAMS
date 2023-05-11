@@ -88,6 +88,13 @@ app.post('/', async (req, res) => {
     //Sign JWT containing email associated with the user
     let jwt = signToken(user.email);
 
+    //Catch any errors when signing the JWT and return them
+    if (jwt.error) {
+        return res.status(500).send({
+            "error": `An internal error occurred during authentication. ${jwt.error}`
+        });
+    }
+
     //Return user data and authenticated JWT
     return res.status(200).send({
         jwt,
