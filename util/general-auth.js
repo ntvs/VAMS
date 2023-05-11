@@ -47,7 +47,7 @@ const isAuthenticated = (req) => {
     //If token is verified by JWT, then the user is authenticated.
     //Otherwise, they are not if any error is thrown.
     try {
-        let content = jwt.verify(token, process.env.JWT_SECRET, {algorithms: ['HS256', 'HS384', 'HS512']});
+        let content = jwt.verify(token, process.env.JWT_SECRET, {algorithms: ['HS256', 'HS384', 'HS512'], maxAge: process.env.JWT_EXPIRY});
         return {
             status: true
         };
