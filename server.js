@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
 });
 
 //Authentication
-app.get('/authenticate', async (req, res) => {
+app.post('/', async (req, res) => {
 
     //Retrieve the Authorization: Bearer ABCD.... header from the request
     let authHeader = req.get('Authorization');
