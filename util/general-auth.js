@@ -17,6 +17,7 @@ const signToken = (content) => {
 
 //-------------------------------------------------------------------
 
+//Checks if a request is properly authenticated
 const isAuthenticated = (req) => {
 
     //Retrieve the Authorization: Bearer ABCD.... header from the request
