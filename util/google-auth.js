@@ -40,6 +40,8 @@ const findUser = async (userObj) => {
     //Check the user table for any matching users
     let user = await GoogleUser.findOne({sub: userObj.sub});
 
+    //Return the user if it exists
+    //Otherwise, add a new user to the DB and return the new user
     if (user) {
         return user;
     } else {
