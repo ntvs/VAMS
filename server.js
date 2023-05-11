@@ -64,7 +64,7 @@ app.get('/authenticate', async (req, res) => {
     //If no value was detected in the Auth header, return an error
     if (!token) {
         return res.status(400).send({
-            "msg": "No authorization header provided"
+            "error": "No authorization header provided"
         });
     }
 
@@ -83,6 +83,7 @@ app.get('/authenticate', async (req, res) => {
     
     //Sign JWT containing email associated with the user
     let jwt = signToken(user.email);
+
 
     return res.status(200).send({
         jwt,
