@@ -33,7 +33,7 @@ db.once("open", () => {
 
 //Authentication utilities
 let googleAuthUtils = require('./util/google-auth');
-let { signToken } = require('./util/general-auth');
+let { signToken, isAuthenticated } = require('./util/general-auth');
 
 //-------------------------------------------------------------------
 
@@ -46,9 +46,13 @@ app.use(express.json());
 
 //App uptime
 app.get('/', (req, res) => {
+
+    let authenticated = isAuthenticated(req);
+
     res.status(200).send({
         "app": `${appName}`,
-        "uptime": `${process.uptime()} s`
+        "uptime": `${process.uptime()} s`,
+        authenticated
     });
 });
 
