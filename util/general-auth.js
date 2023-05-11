@@ -28,18 +28,24 @@ const isAuthenticated = (req) => {
 
     //If no token was provided, then the user is not authenicated
     if (!token) {
-        return false;
+        return {
+            status: false,
+            error: "No authorization header provided"
+        };
     }
 
     //If token is verified by JWT, then the user is authenticated.
     //Otherwise, they are not if any error is thrown.
     try {
         let content = jwt.verify(token, process.env.JWT_SECRET);
-        return true;
+        return {
+            status: true
+        };
     } catch (e) {
-        //Debug
-        console.log(e);
-        return false;
+        return {
+            status: false,
+            error: e.message
+        };
     }
 
 }
