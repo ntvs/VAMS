@@ -84,7 +84,7 @@ app.get('/authenticate', async (req, res) => {
     //Sign JWT containing email associated with the user
     let jwt = signToken(user.email);
 
-
+    //Return user data and authenticated JWT
     return res.status(200).send({
         jwt,
         user
