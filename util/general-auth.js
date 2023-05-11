@@ -17,4 +17,32 @@ const signToken = (content) => {
 
 //-------------------------------------------------------------------
 
-module.exports = { signToken };
+const isAuthenticated = (req) => {
+
+    //Retrieve the Authorization: Bearer ABCD.... header from the request
+    let authHeader = req.get('Authorization');
+    
+    //If there was a header, extract the token from the header
+    let token = authHeader && authHeader.split(' ')[1];
+
+    //If no token was provided, then the user is not authenicated
+    if (!token) {
+        return false;
+    }
+
+    //If token is verified by JWT, then the user is authenticated.
+    //Otherwise, they are not if any error is thrown.
+    try {
+        let content = jwt.verify(token, process.env.JWT_SECRET);
+        return true;
+    } catch (e) {
+        //Debug
+        console.log(e);
+        return false;
+    }
+
+}
+
+//-------------------------------------------------------------------
+
+module.exports = { signToken, isAuthenticated };
