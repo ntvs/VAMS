@@ -25,7 +25,7 @@ const checkTokenSignature = async (token) => {
         //Return the "payload" which is an object containing information of the user who signed in with google
         const payload = ticket.getPayload();
 
-        return payload
+        return payload;
         
     } catch(error) {
         return {"error": error.message.split(":")[0]}
