@@ -14,7 +14,7 @@ const signToken = (content) => {
     //Synchronously sign token and return it
     //Otherwise, return any error
     try {
-        let token = jwt.sign(token_body, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRY || "1h", algorithm: 'RS512'});
+        let token = jwt.sign(token_body, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRY || "1h", algorithm: 'HS512'});
         return {
             token
         };
@@ -47,7 +47,7 @@ const isAuthenticated = (req) => {
     //If token is verified by JWT, then the user is authenticated.
     //Otherwise, they are not if any error is thrown.
     try {
-        let content = jwt.verify(token, process.env.JWT_SECRET, {algorithms: ['RS256', 'RS384', 'RS512']});
+        let content = jwt.verify(token, process.env.JWT_SECRET, {algorithms: ['HS256', 'HS384', 'HS512']});
         return {
             status: true
         };
