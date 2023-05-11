@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 
 //-------------------------------------------------------------------
 
+//Creates, signs, and returns a new JWT with the given content
 const signToken = (content) => {
     let token_body = {
         data: content
