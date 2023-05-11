@@ -28,7 +28,7 @@ const checkTokenSignature = async (token) => {
         return payload;
         
     } catch(error) {
-        return {"error": error.message.split(":")[0]}
+        return {"error": error.message.split(":")[0]};
     }
 };
 
